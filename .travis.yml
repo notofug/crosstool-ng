@@ -37,17 +37,18 @@ install:
 # Here is the list of all the standard samples tracked
 # by the continuous integration system
 env:
-    - CT_SAMPLE=arm-unknown-eabi
-    - CT_SAMPLE=arm-unknown-linux-musleabi
-    - CT_SAMPLE=aarch64-unknown-linux-gnu
-    - CT_SAMPLE=mips64el-multilib-linux-uclibc
-    - CT_SAMPLE=powerpc-e500v2-linux-gnuspe
-    - CT_SAMPLE=x86_64-unknown-linux-uclibc
-    - CT_SAMPLE=xtensa-fsf-linux-uclibc
+    - CT_SAMPLE=x86_64-w64-mingw32,arm-none-eabi
+    - CT_SAMPLE=x86_64-w64-mingw32,arm-none-linux-gnueabi
+    - CT_SAMPLE=x86_64-w64-mingw32,powerpc-none-linux-gnu
+    - CT_SAMPLE=x86_64-w64-mingw32,i686-pc-linux-gnu
+    - CT_SAMPLE=x86_64-w64-mingw32,x86_64-pc-linux-gnu
 
 # Building the standard samples
 script:
     - . ./.travis.sh      # Load the travis environment
+    - ct-ng x86_64-w64-mingw32	  # first step build
+    - ct-ng_travis_build  # Build first step
+    - export PATH="~/x-tools/x86_64-w64-mingw32/bin:$PATH"
     - ct-ng $CT_SAMPLE    # Configure the build
     - ct-ng_travis_build  # Build the sample
 
